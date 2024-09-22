@@ -1,0 +1,1051 @@
+
+
+Destructors:
+***********
+
+A destructor is a special member function of a class that is executed whenever an object of the class is destroyed. 
+The primary purpose of a destructor is to free resources that the object may have acquired during its lifetime.
+This includes deallocating memory, closing files, releasing network resources, etc.
+
+Characteristics of Destructors:
+--------------------------------
+Name: The destructor has the same name as the class but is preceded by a tilde (~). 
+For example, if the class is named MyClass, the destructor will be named ~MyClass.
+
+No Arguments: A destructor does not take any arguments and does not return any value.
+
+Implicitly Called: A destructor is implicitly called when
+An object goes out of scope, A dynamically allocated object is explicitly deleted using the delete operator.
+
+One per Class: There can only be one destructor per class, unlike constructors, which can be overloaded.
+v
+
+class ClassName {
+public:
+    // Constructor
+    ClassName() {
+        // Constructor code
+    }
+    
+    // Destructor
+    ~ClassName() {
+        // Destructor code
+    }
+};
+--------------------------------------------------------------------------------------------------
+
+
+
+
+Inheritance:
+------------
+Inheritance is a core principle of object-oriented programming (OOP) that allows one class (derived class or subclass) to 
+inherit the properties and behaviors (methods and attributes) of another class (base class or superclass). 
+It promotes code reusability and helps in modeling real-world relationships where one object is a specialized version of another.
+
+Key Concepts of Inheritance:
+Base Class (Superclass): The class whose features are inherited is known as the base class or superclass. 
+It defines the common attributes and methods that are shared by all subclasses.
+
+Derived Class (Subclass): 
+The class that inherits the properties and behaviors from another class is known as the derived class or subclass. 
+It can add its own unique features and functionality while inheriting the existing functionality from its superclass.
+
+Types of Inheritance:
+------------------------
+
+Single Inheritance: A subclass inherits from only one superclass.
+Multiple Inheritance: A subclass inherits from multiple superclasses (not supported in C++ directly).
+Multilevel Inheritance: A subclass inherits from another subclass, creating a hierarchy of classes.
+Hierarchical Inheritance: Multiple subclasses inherit from the same superclass.
+Hybrid Inheritance: A combination of two or more types of inheritance.
+Access Specifiers: In C++, access specifiers (public, protected, private) are used to control the visibility of inherited members in the derived class.
+
+Benefits of Inheritance:
+Code Reusability: Allows you to reuse code from existing classes without having to re-implement it.
+Hierarchy: Helps in organizing classes into a hierarchy, reflecting real-world relationships.
+Polymorphism: Enables polymorphic behavior through function overriding.
+Modularity: Promotes modular design by separating concerns and responsibilities between classes.
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Single level inheritance:
+------------------------
+
+#include <iostream>
+using namespace std;
+
+// Base class
+class Vehicle {
+protected:
+    int wheels;
+
+public:
+    Vehicle(int w) : wheels(w) {}
+
+    void display() {
+        cout << "I am a vehicle with " << wheels << " wheels." << endl;
+    }
+};
+
+// Derived class inheriting from Vehicle
+class Car : public Vehicle {
+private:
+    string brand;
+
+public:
+    Car(int w, string b) : Vehicle(w), brand(b) {}
+
+    void showInfo() {
+        cout << "Brand: " << brand << ", Wheels: " << wheels << endl;
+    }
+};
+
+int main() {
+    Car c(4, "Toyota");
+    c.display();    // Accessing base class method
+    c.showInfo();   // Accessing derived class method
+
+    return 0;
+}
+
+
+Multiple inhertance:
+---------------------
+
+#include <iostream>
+using namespace std;
+
+// Base class
+class Animal {
+public:
+    void eat() {
+        cout << "Animal is eating." << endl;
+    }
+};
+
+// Derived class inheriting from Animal
+class Dog : public Animal {
+public:
+    void bark() {
+        cout << "Dog is barking." << endl;
+    }
+};
+
+// Derived class inheriting from Dog
+class GermanShepherd : public Dog {
+public:
+    void display() {
+        cout << "German Shepherd." << endl;
+    }
+};
+
+int main() {
+    GermanShepherd gs;
+    gs.eat();       // Accessing base class method
+    gs.bark();      // Accessing intermediate derived class method
+    gs.display();   // Accessing most derived class method
+
+    return 0;
+}
+
+
+
+Hierarchical inheritance:
+-------------------------
+
+#include <iostream>
+using namespace std;
+
+// Base class
+class Shape {
+protected:
+    int width, height;
+
+public:
+    Shape(int w, int h) : width(w), height(h) {}
+
+    void display() {
+        cout << "Width: " << width << ", Height: " << height << endl;
+    }
+};
+
+// Derived class inheriting from Shape
+class Rectangle : public Shape {
+public:
+    Rectangle(int w, int h) : Shape(w, h) {}
+
+    int area() {
+        return width * height;
+    }
+};
+
+// Another derived class inheriting from Shape
+class Triangle : public Shape {
+public:
+    Triangle(int w, int h) : Shape(w, h) {}
+
+    float area() {
+        return 0.5 * width * height;
+    }
+};
+
+int main() {
+    Rectangle r(5, 10);
+    Triangle t(4, 8);
+
+    r.display();    // Accessing base class method via Rectangle object
+    cout << "Area of Rectangle: " << r.area() << endl;
+
+    t.display();    // Accessing base class method via Triangle object
+    cout << "Area of Triangle: " << t.area() << endl;
+
+    return 0;
+}
+
+Hybrid inheritance:
+------------------
+
+Hybrid inheritance in object-oriented programming refers to a combination of different types of inheritance, such as single, 
+multiple, multilevel, or hierarchical inheritance. 
+In C++, hybrid inheritance is often achieved by combining single or multilevel inheritance with multiple inheritance
+
+#include <iostream>
+using namespace std;
+
+// Base class
+class Animal {
+protected:
+    string type;
+
+public:
+    Animal(string t) : type(t) {}
+
+    void setType(string t) {
+        type = t;
+    }
+
+    void displayType() {
+        cout << "Type of animal: " << type << endl;
+    }
+};
+
+// Base class
+class Sound {
+protected:
+    string sound;
+
+public:
+    Sound(string s) : sound(s) {}
+
+    void setSound(string s) {
+        sound = s;
+    }
+
+    void makeSound() {
+        cout << "Sound made by animal: " << sound << endl;
+    }
+};
+
+// Derived class inheriting from Animal and Sound
+class Dog : public Animal, public Sound {
+private:
+    string breed;
+
+public:
+    Dog(string t, string s, string b) : Animal(t), Sound(s), breed(b) {}
+
+    void displayBreed() {
+        cout << "Breed of dog: " << breed << endl;
+    }
+};
+
+// Derived class inheriting from Animal
+class Cat : public Animal {
+private:
+    string color;
+
+public:
+    Cat(string t, string c) : Animal(t), color(c) {}
+
+    void displayColor() {
+        cout << "Color of cat: " << color << endl;
+    }
+};
+
+int main() {
+    // Creating objects and demonstrating hybrid inheritance
+    Dog myDog("Mammal", "Bark", "Labrador");
+    myDog.displayType();    // Accessing Animal's method
+    myDog.makeSound();      // Accessing Sound's method
+    myDog.displayBreed();   // Accessing Dog's method
+
+    cout << endl;
+
+    Cat myCat("Mammal", "Black");
+    myCat.displayType();    // Accessing Animal's method
+    myCat.displayColor();   // Accessing Cat's method
+
+    return 0;
+}
+
+-------------------------------------------------------------------------------------------------------
+
+Polymorphism:
+-------------
+
+Polymorphism is one of the four fundamental principles of object-oriented programming (OOP), along with encapsulation,
+ inheritance, and abstraction. It allows objects of different classes to be treated as objects of a common base class. 
+ The most common use of polymorphism is when a parent class reference is used to refer to a child class object. 
+ Polymorphism provides a way to use a single interface to represent different data types or classes, 
+ allowing for flexibility and the ability to extend and maintain code more easily.
+
+Types of Polymorphism:
+----------------------
+Compile-time Polymorphism (Static Binding):
+
+Achieved through function overloading and operator overloading.
+The function to be invoked is determined at compile time.
+Run-time Polymorphism (Dynamic Binding):
+
+Achieved through method overriding.
+The function to be invoked is determined at runtime using pointers or references to base class objects.
+Detailed Explanation:
+Compile-time Polymorphism (Function Overloading and Operator Overloading)
+Function Overloading:
+
+Multiple functions can have the same name with different parameters (different type, number, or both).
+The compiler determines which function to call based on the arguments passed.
+
+
+#include <iostream>
+using namespace std;
+
+class Print {
+public:
+    void show(int i) {
+        cout << "Integer: " << i << endl;
+    }
+    void show(double d) {
+        cout << "Double: " << d << endl;
+    }
+    void show(string s) {
+        cout << "String: " << s << endl;
+    }
+};
+
+int main() {
+    Print p;
+    p.show(5);       // Calls show(int)
+    p.show(5.5);     // Calls show(double)
+    p.show("Hello"); // Calls show(string)
+
+    return 0;
+}
+
+Operator Overloading:
+--------------------
+Customizing the behavior of operators for user-defined types.
+The operator can be overloaded to provide special meaning for user-defined data types.
+
+
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+    float real;
+    float imag;
+
+public:
+    Complex() : real(0), imag(0) {}
+    Complex(float r, float i) : real(r), imag(i) {}
+
+    // Overloading the + operator
+    Complex operator + (const Complex &c) {
+        return Complex(real + c.real, imag + c.imag);
+    }
+
+    void display() {
+        cout << real << " + " << imag << "i" << endl;
+    }
+};
+
+int main() {
+    Complex c1(3.4, 5.6), c2(1.2, 3.8);
+    Complex c3 = c1 + c2; // Calls overloaded + operator
+    c3.display(); // Output: 4.6 + 9.4i
+
+    return 0;
+    
+}
+
+
+#include <iostream>
+#include<string>
+#include<list>
+using namespace std;
+
+struct YouTubeChannel {
+    string Name;
+    int SubscribersCount;
+
+    YouTubeChannel(string name, int subscribersCount) {
+        Name = name;
+        SubscribersCount = subscribersCount;
+    }
+    bool operator==(const YouTubeChannel&channel) const{
+        return this->Name == channel.Name;
+    }
+};
+ostream& operator<<(ostream& COUT, YouTubeChannel& ytChannel) {
+    COUT << "Name: " << ytChannel.Name << endl;
+    COUT << "Subscribers: " << ytChannel.SubscribersCount << endl;
+    return COUT;
+}
+struct MyCollection {
+    list<YouTubeChannel>myChannels;
+
+    void operator+=(YouTubeChannel& channel) {
+        this->myChannels.push_back(channel);
+    }
+    void operator-=(YouTubeChannel& channel) {
+        this->myChannels.remove(channel);
+    }
+};
+ostream& operator<<(ostream& COUT, MyCollection& myCollection) {
+    for (YouTubeChannel ytChannel : myCollection.myChannels)
+        COUT << ytChannel << endl;
+    return COUT;
+}
+
+int main()
+{
+    YouTubeChannel yt1 = YouTubeChannel("CodeBeauty", 75000);
+    YouTubeChannel yt2 = YouTubeChannel("My second channel", 80000);
+
+    MyCollection myCollection;
+    myCollection += yt1;
+    myCollection += yt2;
+    myCollection -= yt2;
+
+    cout << myCollection;
+    
+    cin.get();
+}
+
+
+#include <iostream>
+using namespace std;
+
+class Vector {
+private:
+    double x, y, z;
+
+public:
+    // Constructor
+    Vector(double a = 0, double b = 0, double c = 0) : x(a), y(b), z(c) {}
+
+    // Method overloading: different ways to set the vector
+    void set(double a, double b, double c) {
+        x = a;
+        y = b;
+        z = c;
+    }
+
+    void set(double a) {
+        x = y = z = a;
+    }
+
+    // Operator overloading for vector addition
+    Vector operator + (const Vector &v) const {
+        return Vector(x + v.x, y + v.y, z + v.z);
+    }
+
+    // Overloading the << operator for easy output
+    friend ostream& operator << (ostream &out, const Vector &v) {
+        out << "[" << v.x << ", " << v.y << ", " << v.z << "]";
+        return out;
+    }
+};
+
+int main() {
+    Vector v1(1.0, 2.0, 3.0), v2(4.0, 5.0, 6.0);
+    Vector v3 = v1 + v2;  // Using overloaded + operator
+
+    cout << "Vector v3: " << v3 << endl;  // Using overloaded << operator
+
+    v3.set(7.0, 8.0, 9.0);  // Using overloaded set method
+    cout << "Updated Vector v3: " << v3 << endl;
+
+    v3.set(10.0);  // Using another overloaded set method
+    cout << "Uniform Vector v3: " << v3 << endl;
+
+    return 0;
+}
+
+
+--------------------------------------
+
+Run-time Polymorphism (Method Overriding)
+---------------------
+Method Overriding:
+
+A derived class provides a specific implementation of a function that is already defined in its base class.
+The function signature must be the same in both the base and derived classes.
+
+#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    virtual void sound() {
+        cout << "Animal makes a sound" << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void sound() override {
+        cout << "Dog barks" << endl;
+    }
+};
+
+class Cat : public Animal {
+public:
+    void sound() override {
+        cout << "Cat meows" << endl;
+    }
+};
+
+void makeSound(Animal &a) {
+    a.sound(); // Calls the appropriate overridden function
+}
+
+int main() {
+    Dog d;
+    Cat c;
+
+    makeSound(d); // Output: Dog barks
+    makeSound(c); // Output: Cat meows
+
+    return 0;
+}
+
+Key Points:
+----------
+Virtual Functions:
+
+Used to achieve runtime polymorphism.
+Defined in the base class and overridden in the derived class.
+When a function is declared as virtual in the base class, 
+C++ determines which function to call at runtime based on the type of object pointed to by the base class pointer.
+Abstract Classes and Pure Virtual Functions:
+
+An abstract class cannot be instantiated and is designed to be inherited by subclasses that implement or override its pure virtual functions.
+A pure virtual function is declared by assigning 0 in its declaration.
+Achieved using pointers or references to base class objects.
+
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual void draw() = 0; // Pure virtual function
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing Circle" << endl;
+    }
+};
+
+class Square : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing Square" << endl;
+    }
+};
+
+int main() {
+    Circle c;
+    Square s;
+
+    Shape *shape1 = &c;
+    Shape *shape2 = &s;
+
+    shape1->draw(); // Output: Drawing Circle
+    shape2->draw(); // Output: Drawing Square
+
+    return 0;
+}
+
+
+Summary:
+--------
+Polymorphism allows objects to be treated as instances of their base class rather than their actual derived class, 
+enabling flexibility and the ability to define and use interchangeable objects. 
+
+It provides two major advantages:
+
+Code Reusability: Write generic code that works with different types.
+Extensibility: Add new classes and functions without modifying existing code, 
+			   adhering to the open/closed principle in software design.
+
+----------------------------------------------------------------------------------------------------------------------
+
+Relationship between Virtual Functions, Pure Virtual Functions, and Abstract Classes
+------------------------------------------
+
+
+Virtual Functions:
+-------------------
+A virtual function is a function in a base class that can be overridden in a derived class.
+It allows derived classes to provide specific implementations of the function.
+When a function is declared as virtual, it supports runtime polymorphism,
+meaning the function to be called is determined at runtime based on the type of the object pointed to or referenced,
+rather than the type of the pointer/reference itself.
+
+#include <iostream>
+using namespace std;
+
+class Base {
+public:
+    virtual void show() {
+        cout << "Base class show function" << endl;
+    }
+};
+
+class Derived : public Base {
+public:
+    void show() override {
+        cout << "Derived class show function" << endl;
+    }
+};
+
+int main() {
+    Base *b;
+    Derived d;
+    b = &d;
+    b->show(); // Output: Derived class show function
+
+    return 0;
+}
+
+
+Pure Virtual Functions:
+----------------------
+A pure virtual function is a function declared in a base class that has no definition relative to the base class.
+It is specified by assigning 0 in its declaration.
+Classes containing at least one pure virtual function are abstract classes and cannot be instantiated.
+Derived classes must override all pure virtual functions to be instantiated; otherwise, they remain abstract.
+
+
+#include <iostream>
+using namespace std;
+
+class Base {
+public:
+    virtual void show() = 0; // Pure virtual function
+};
+
+class Derived : public Base {
+public:
+    void show() override {
+        cout << "Derived class show function" << endl;
+    }
+};
+
+int main() {
+    Derived d;
+    d.show(); // Output: Derived class show function
+
+    Base *b = &d;
+    b->show(); // Output: Derived class show function
+
+    return 0;
+}
+
+
+Abstract Classes:
+-----------------
+An abstract class is a class that cannot be instantiated and is designed to be inherited from.
+It can contain pure virtual functions as well as regular functions with implementations.
+Derived classes must provide implementations for all pure virtual functions of the abstract base class.
+
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual void draw() = 0; // Pure virtual function
+    void info() {
+        cout << "This is a shape" << endl;
+    }
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing Circle" << endl;
+    }
+};
+
+class Square : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing Square" << endl;
+    }
+};
+
+int main() {
+    Circle c;
+    Square s;
+
+    c.draw(); // Output: Drawing Circle
+    c.info(); // Output: This is a shape
+
+    s.draw(); // Output: Drawing Square
+    s.info(); // Output: This is a shape
+
+    return 0;
+}
+
+Summary:
+Virtual Functions:
+
+Declared in a base class using the virtual keyword.
+Can be overridden in derived classes.
+Enables runtime polymorphism.
+Pure Virtual Functions:
+
+Declared in a base class using the virtual keyword followed by = 0.
+No definition in the base class.
+Makes the base class abstract, meaning it cannot be instantiated.
+Derived classes must override all pure virtual functions to be instantiated.
+Abstract Classes:
+
+Contain at least one pure virtual function.
+Cannot be instantiated directly.
+Designed to be inherited from.
+Derived classes must provide implementations for all pure virtual functions.
+These concepts enable the creation of flexible and reusable code in C++, 
+allowing for the definition of interfaces and ensuring that derived classes adhere to specific behaviors.
+Polymorphism achieved through virtual functions allows for dynamic method binding, 
+which is essential for many design patterns and software engineering principles.
+
+-----------------------------------------------------------------------------------------------------
+
+Absraction:
+************
+
+Abstraction is one of the four fundamental principles of object-oriented programming (OOP), along with encapsulation, inheritance, and polymorphism. It involves hiding the complex implementation details and showing only the necessary features of an object. By focusing on what an object does rather than how it does it, abstraction helps in managing complexity and enhancing code readability and maintainability.
+
+Key Points:
+----------
+Hides Complexity: Abstraction allows you to hide complex details and show only the essential features of an object.
+Simplifies Interaction: Users interact with the object at a higher level, without needing to understand the intricate details.
+Improves Maintainability: Changes to implementation details do not affect the users of the object, as they are only aware of the abstracted interface.
+Enhances Reusability: Abstract classes and interfaces define clear and reusable protocols for interaction.
+How to Achieve Abstraction in C++:
+Abstract Classes: An abstract class is a class that cannot be instantiated and usually contains one or more pure virtual functions.
+Interfaces: While C++ does not have explicit interface support like some other languages, abstract classes with only pure virtual functions can be used to create interfaces.
+
+
+
+#include <iostream>
+using namespace std;
+
+// Abstract class
+class Shape {
+public:
+    virtual void draw() = 0; // Pure virtual function
+    virtual double area() = 0; // Another pure virtual function
+
+    void info() {
+        cout << "This is a shape" << endl;
+    }
+};
+
+// Derived class inheriting from Shape
+class Circle : public Shape {
+private:
+    double radius;
+
+public:
+    Circle(double r) {
+        radius = r;
+    }
+
+    void draw() override {
+        cout << "Drawing Circle" << endl;
+    }
+
+    double area() override {
+        return 3.14159 * radius * radius;
+    }
+};
+
+// Another derived class inheriting from Shape
+class Rectangle : public Shape {
+private:
+    double length;
+    double width;
+
+public:
+    Rectangle(double l, double w) {
+        length = l;
+        width = w;
+    }
+
+    void draw() override {
+        cout << "Drawing Rectangle" << endl;
+    }
+
+    double area() override {
+        return length * width;
+    }
+};
+
+int main() {
+    Shape* shape1 = new Circle(5.0);
+    Shape* shape2 = new Rectangle(4.0, 6.0);
+
+    shape1->draw(); // Output: Drawing Circle
+    cout << "Area: " << shape1->area() << endl; // Output: Area of Circle
+
+    shape2->draw(); // Output: Drawing Rectangle
+    cout << "Area: " << shape2->area() << endl; // Output: Area of Rectangle
+
+    delete shape1;
+    delete shape2;
+
+    return 0;
+}
+
+
+
+Explanation:
+-----------
+Abstract Class: Shape is an abstract class with two pure virtual functions: draw and area.
+Derived Classes: Circle and Rectangle are derived classes that implement the pure virtual functions from the Shape class.
+Abstraction: The Shape class provides an abstract interface for drawing shapes and calculating their areas. The user of the Shape class does not need to know how Circle or Rectangle implement these functions, only that they do.
+
+Advantages of Abstraction:
+**************************
+Code Reusability:
+-----------------
+ The Shape class defines a common interface that can be reused by any shape.
+Implementation Hiding: Users of the Shape class interact with it through its abstract interface, without needing to know the details of how Circle or Rectangle implement the draw and area functions.
+
+
+Flexibility: 
+-----------
+New shapes can be added easily by creating new classes that inherit from Shape and implement the required functions.
+
+Real-World Example:
+------------------
+Imagine a graphical application where you need to handle different shapes (circles, rectangles, triangles, etc.). Using abstraction, you can define a common interface for all shapes and then implement specific details for each shape type. This makes your code more modular, easier to understand, and easier to extend.
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Shape {
+public:
+    virtual void draw() = 0;
+    virtual double area() = 0;
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+
+public:
+    Circle(double r) {
+        radius = r;
+    }
+
+    void draw() override {
+        cout << "Drawing Circle" << endl;
+    }
+
+    double area() override {
+        return 3.14159 * radius * radius;
+    }
+};
+
+class Rectangle : public Shape {
+private:
+    double length;
+    double width;
+
+public:
+    Rectangle(double l, double w) {
+        length = l;
+        width = w;
+    }
+
+    void draw() override {
+        cout << "Drawing Rectangle" << endl;
+    }
+
+    double area() override {
+        return length * width;
+    }
+};
+
+class Triangle : public Shape {
+private:
+    double base;
+    double height;
+
+public:
+    Triangle(double b, double h) {
+        base = b;
+        height = h;
+    }
+
+    void draw() override {
+        cout << "Drawing Triangle" << endl;
+    }
+
+    double area() override {
+        return 0.5 * base * height;
+    }
+};
+
+int main() {
+    vector<Shape*> shapes;
+    shapes.push_back(new Circle(5.0));
+    shapes.push_back(new Rectangle(4.0, 6.0));
+    shapes.push_back(new Triangle(3.0, 4.0));
+
+    for (Shape* shape : shapes) {
+        shape->draw();
+        cout << "Area: " << shape->area() << endl;
+    }
+
+    // Clean up memory
+    for (Shape* shape : shapes) {
+        delete shape;
+    }
+
+    return 0;
+}
+
+-----------------------------------------------------------------------------------
+Friend functions:
+*****************
+For providing access to private and protected variables.
+
+
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+    float real;
+    float imag;
+
+public:
+    Complex() : real(0), imag(0) {}
+    Complex(float r, float i) : real(r), imag(i) {}
+
+    // Overloading the + operator as a friend function
+    friend Complex operator + (const Complex &c1, const Complex &c2);
+
+    void display() const {
+        cout << real << " + " << imag << "i" << endl;
+    }
+};
+
+// Definition of the friend function
+Complex operator + (const Complex &c1, const Complex &c2) {
+    return Complex(c1.real + c2.real, c1.imag + c2.imag);
+}
+
+int main() {
+    Complex c1(3.4, 5.6), c2(1.2, 3.8);
+    Complex c3 = c1 + c2; // Calls overloaded + operator
+    c3.display(); // Output: 4.6 + 9.4i
+
+    return 0;
+}
+
+----------------------------------------------------------------------------
+Copy constructors and assignment operators:
+
+Key Differences:
+Purpose:
+
+Copy Constructor: Initializes a new object as a copy of an existing object.
+Assignment Operator: Assigns the contents of one existing object to another existing object.
+When They Are Called:
+
+Copy Constructor: Called when a new object is being created.
+Assignment Operator: Called when an existing object is assigned a new value.
+Syntax:
+
+Copy Constructor: ClassName(const ClassName &obj);
+Assignment Operator: ClassName& operator=(const ClassName &obj);
+Memory Management:
+
+Copy Constructor: Typically involves allocation of new resources (if the class manages resources).
+Assignment Operator: Typically involves cleanup of old resources and reallocation of new resources (if the class manages resources).
+Return Type:
+
+Copy Constructor: No return type.
+Assignment Operator: Returns a reference to the assigned object, allowing for chaining of assignments.
+
+#include <iostream>
+using namespace std;
+
+class MyClass {
+private:
+    int data;
+
+public:
+    // Parameterized constructor
+    MyClass(int d) : data(d) {
+        cout << "Parameterized constructor called" << endl;
+    }
+
+    // Copy constructor
+    MyClass(const MyClass &obj) {
+        data = obj.data;
+        cout << "Copy constructor called" << endl;
+    }
+
+    // Assignment operator
+    MyClass& operator=(const MyClass &obj) {
+        if (this != &obj) {
+            data = obj.data;
+            cout << "Assignment operator called" << endl;
+        }
+        return *this;
+    }
+
+    void display() {
+        cout << "Data: " << data << endl;
+    }
+};
+
+int main() {
+    MyClass obj1(10);      // Calls parameterized constructor
+    MyClass obj2(20);      // Calls parameterized constructor
+    MyClass obj3 = obj1;   // Calls copy constructor
+
+    obj2 = obj1;           // Calls assignment operator
+
+    obj1.display();
+    obj2.display();
+    obj3.display();
+
+    return 0;
+}
+
+-----------------------------------------------------------------------------------------------------
+
+
+

@@ -1,0 +1,1632 @@
+Arrays:
+*************
+
+Static arrays
+Dynamic arrays (using pointers)
+Operations: insertion, deletion, searching, sorting
+
+Linked Lists:
+*************
+
+Singly linked list
+Doubly linked list
+Circular linked list
+Operations: insertion, deletion, traversal
+
+
+Stacks:
+*************
+Implementation using arrays or linked lists
+Operations: push, pop, peek, isEmpty
+
+Queues:
+*************
+Implementation using arrays or linked lists
+Circular queue
+Deque (double-ended queue)
+Priority queue
+
+Trees:
+*************
+Binary trees
+Binary search trees
+AVL trees
+Red-Black trees
+Tree traversal methods (in-order, pre-order, post-order)
+
+Heaps:
+*************
+Min-heap
+Max-heap
+Heap operations: insertion, deletion, heapify
+
+Hashing:
+*************
+Hash tables
+Hash functions
+Collision resolution techniques (chaining, open addressing)
+
+Graphs:
+*************
+Graph representations (adjacency matrix, adjacency list)
+Graph traversal (BFS, DFS)
+Shortest path algorithms (Dijkstra, Floyd-Warshall)
+Minimum spanning tree algorithms (Kruskal, Prim)
+
+Sorting Algorithms:
+*************
+Bubble sort
+Selection sort
+Insertion sort
+Merge sort
+Quick sort
+Heap sort
+
+Searching Algorithms:
+*************
+Linear search
+Binary search
+
+
+-----------
+Structures
+-----------
+Structures in C++ are user-defined data types that allow you to combine different data types into a single entity.
+They are similar to classes, but all members of a structure are public by default.
+Structures are particularly useful for creating complex data types that can model real-world entities more effectively than primitive data types alone.
+
+struct StructureName {
+    dataType member1;
+    dataType member2;
+    // more members
+};
+
+Eg:STRUCTURE_BASICS.CPP
+
+
+
+Polynomial manipulation:
+
+Polynomial manipulation involves operations such as addition, subtraction, multiplication, and evaluation of polynomials. 
+Each polynomial can be represented using a linked list, where each node contains a term with its coefficient and exponent.
+
+Here's a detailed explanation and complete C++ code for polynomial manipulation using a linked list:
+
+Detailed Explanation
+Node Structure:
+
+Each node in the linked list represents a term in the polynomial.
+Each term has a coefficient and an exponent.
+The linked list is sorted in descending order of exponents.
+Polynomial Class:
+
+The class maintains the head of the linked list.
+Provides methods for:
+Insertion of terms.
+Displaying the polynomial.
+Adding two polynomials.
+Multiplying two polynomials.
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int coefficient;
+    int exponent;
+    Node* next;
+
+    Node(int coeff, int exp) {
+        coefficient = coeff;
+        exponent = exp;
+        next = nullptr;
+    }
+};
+
+class Polynomial {
+private:
+    Node* head;
+
+public:
+    Polynomial() {
+        head = nullptr;
+    }
+
+    // Insert a new term in the polynomial
+    void insertTerm(int coeff, int exp) {
+        Node* newNode = new Node(coeff, exp);
+        if (!head || head->exponent < exp) {
+            newNode->next = head;
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next && temp->next->exponent > exp) {
+                temp = temp->next;
+            }
+            if (temp->exponent == exp) {
+                temp->coefficient += coeff;
+            } else {
+                newNode->next = temp->next;
+                temp->next = newNode;
+            }
+        }
+    }
+
+    // Display the polynomial
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->coefficient << "x^" << temp->exponent;
+            if (temp->next) {
+                cout << " + ";
+            }
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    // Add two polynomials
+    Polynomial add(Polynomial& p) {
+        Polynomial result;
+        Node* temp1 = head;
+        Node* temp2 = p.head;
+
+        while (temp1 && temp2) {
+            if (temp1->exponent > temp2->exponent) {
+                result.insertTerm(temp1->coefficient, temp1->exponent);
+                temp1 = temp1->next;
+            } else if (temp1->exponent < temp2->exponent) {
+                result.insertTerm(temp2->coefficient, temp2->exponent);
+                temp2 = temp2->next;
+            } else {
+                result.insertTerm(temp1->coefficient + temp2->coefficient, temp1->exponent);
+                temp1 = temp1->next;
+                temp2 = temp2->next;
+            }
+        }
+
+        while (temp1) {
+            result.insertTerm(temp1->coefficient, temp1->exponent);
+            temp1 = temp1->next;
+        }
+
+        while (temp2) {
+            result.insertTerm(temp2->coefficient, temp2->exponent);
+            temp2 = temp2->next;
+        }
+
+        return result;
+    }
+
+    // Multiply two polynomials
+    Polynomial multiply(Polynomial& p) {
+        Polynomial result;
+        for (Node* temp1 = head; temp1 != nullptr; temp1 = temp1->next) {
+            Polynomial tempPoly;
+            for (Node* temp2 = p.head; temp2 != nullptr; temp2 = temp2->next) {
+                tempPoly.insertTerm(temp1->coefficient * temp2->coefficient, temp1->exponent + temp2->exponent);
+            }
+            result = result.add(tempPoly);
+        }
+        return result;
+    }
+};
+
+int main() {
+    Polynomial p1;
+    p1.insertTerm(3, 2);
+    p1.insertTerm(5, 1);
+    p1.insertTerm(6, 0);
+
+    Polynomial p2;
+    p2.insertTerm(6, 1);
+    p2.insertTerm(8, 0);
+
+    cout << "Polynomial 1: ";
+    p1.display();
+
+    cout << "Polynomial 2: ";
+    p2.display();
+
+    Polynomial sum = p1.add(p2);
+    cout << "Sum: ";
+    sum.display();
+
+    Polynomial product = p1.multiply(p2);
+    cout << "Product: ";
+    product.display();
+
+    return 0;
+}
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+Binary search:
+
+ARRAY:
+#include <iostream>
+using namespace std;
+
+int binarySearch(int arr[], int left, int right, int x) {
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == x)
+            return mid;
+        if (arr[mid] < x)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    int arr[] = {2, 3, 4, 10, 40};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int x = 10;
+    int result = binarySearch(arr, 0, n - 1, x);
+    if (result != -1)
+        cout << "Element is present at index " << result;
+    else
+        cout << "Element is not present in array";
+    return 0;
+}
+
+
+Linked list:
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* newNode(int data) {
+    Node* temp = new Node();
+    temp->data = data;
+    temp->next = nullptr;
+    return temp;
+}
+
+int length(Node* head) {
+    int len = 0;
+    while (head) {
+        head = head->next;
+        len++;
+    }
+    return len;
+}
+
+int getNthNode(Node* head, int n) {
+    int count = 0;
+    while (head) {
+        if (count == n)
+            return head->data;
+        head = head->next;
+        count++;
+    }
+    return -1;
+}
+
+int binarySearch(Node* head, int x) {
+    int len = length(head);
+    int left = 0, right = len - 1;
+    
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        int midVal = getNthNode(head, mid);
+        
+        if (midVal == x)
+            return mid;
+        if (midVal < x)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    Node* head = newNode(2);
+    head->next = newNode(3);
+    head->next->next = newNode(4);
+    head->next->next->next = newNode(10);
+    head->next->next->next->next = newNode(40);
+
+    int x = 10;
+    int result = binarySearch(head, x);
+    if (result != -1)
+        cout << "Element is present at index " << result;
+    else
+        cout << "Element is not present in list";
+    return 0;
+}
+
+
+-------------------------------------------------------------------------------------------
+2.Bubble sort
+
+Array:
+#include <iostream>
+using namespace std;
+
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (arr[j] > arr[j + 1])
+                swap(arr[j], arr[j + 1]);
+}
+
+int main() {
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    bubbleSort(arr, n);
+    cout << "Sorted array: \n";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    return 0;
+}
+
+
+
+
+Linked list:
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void swap(Node* a, Node* b) {
+    int temp = a->data;
+    a->data = b->data;
+    b->data = temp;
+}
+
+void bubbleSort(Node* head) {
+    if (head == nullptr)
+        return;
+    bool swapped;
+    Node* ptr1;
+    Node* lptr = nullptr;
+
+    do {
+        swapped = false;
+        ptr1 = head;
+
+        while (ptr1->next != lptr) {
+            if (ptr1->data > ptr1->next->data) {
+                swap(ptr1, ptr1->next);
+                swapped = true;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}
+
+void printList(Node* node) {
+    while (node != nullptr) {
+        cout << node->data << " ";
+        node = node->next;
+    }
+}
+
+int main() {
+    Node* head = new Node();
+    head->data = 64;
+    head->next = new Node();
+    head->next->data = 34;
+    head->next->next = new Node();
+    head->next->next->data = 25;
+    head->next->next->next = new Node();
+    head->next->next->next->data = 12;
+    head->next->next->next->next = new Node();
+    head->next->next->next->next->data = 22;
+    head->next->next->next->next->next = new Node();
+    head->next->next->next->next->next->data = 11;
+    head->next->next->next->next->next->next = new Node();
+    head->next->next->next->next->next->next->data = 90;
+    head->next->next->next->next->next->next->next = nullptr;
+
+    bubbleSort(head);
+    cout << "Sorted Linked List: \n";
+    printList(head);
+    return 0;
+}
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+Insertion sort:
+
+ARRAY:
+
+#include <iostream>
+using namespace std;
+
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    insertionSort(arr, n);
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    return 0;
+}
+
+
+Linked list:
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void sortedInsert(Node** head_ref, Node* newNode) {
+    Node* current;
+    if (*head_ref == nullptr || (*head_ref)->data >= newNode->data) {
+        newNode->next = *head_ref;
+        *head_ref = newNode;
+    } else {
+        current = *head_ref;
+        while (current->next != nullptr && current->next->data < newNode->data) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+}
+
+void insertionSort(Node** head_ref) {
+    Node* sorted = nullptr;
+    Node* current = *head_ref;
+    while (current != nullptr) {
+        Node* next = current->next;
+        sortedInsert(&sorted, current);
+        current = next;
+    }
+    *head_ref = sorted;
+}
+
+void printList(Node* head) {
+    while (head != nullptr) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+int main() {
+    Node* head = new Node();
+    head->data = 12;
+    head->next = new Node();
+    head->next->data = 11;
+    head->next->next = new Node();
+    head->next->next->data = 13;
+    head->next->next->next = new Node();
+    head->next->next->next->data = 5;
+    head->next->next->next->next = new Node();
+    head->next->next->next->next->data = 6;
+    head->next->next->next->next->next = nullptr;
+
+    insertionSort(&head);
+    cout << "Sorted Linked List: \n";
+    printList(head);
+    return 0;
+}
+
+
+-------------------------------------------------------------------------
+
+Selection sort:
+
+ARRAY:
+
+#include <iostream>
+using namespace std;
+
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int min_idx = i;
+        for (int j = i + 1; j < n; j++)
+            if (arr[j] < arr[min_idx])
+                min_idx = j;
+        swap(arr[min_idx], arr[i]);
+    }
+}
+
+int main() {
+    int arr[] = {64, 25, 12, 22, 11};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    selectionSort(arr, n);
+    cout << "Sorted array: \n";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    return 0;
+}
+
+
+Linked list:
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* newNode(int data) {
+    Node* temp = new Node();
+    temp->data = data;
+    temp->next = nullptr;
+    return temp;
+}
+
+void selectionSort(Node* head) {
+    Node* temp = head;
+    while (temp) {
+        Node* min = temp;
+        Node* r = temp->next;
+        
+        while (r) {
+            if (min->data > r->data)
+                min = r;
+            r = r->next;
+        }
+        
+        int x = temp->data;
+        temp->data = min->data;
+        min->data = x;
+        temp = temp->next;
+    }
+}
+
+void printList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+}
+
+int main() {
+    Node* head = newNode(64);
+    head->next = newNode(25);
+    head->next->next = newNode(12);
+    head->next->next->next = newNode(22);
+    head->next->next->next->next = newNode(11);
+
+    selectionSort(head);
+    cout << "Sorted Linked List: \n";
+    printList(head);
+    return 0;
+}
+-----------------------------------------------------------------------
+
+
+1. Quick Sort
+Mechanism: Quick Sort is a divide-and-conquer algorithm that picks an element as a pivot and partitions the array around the pivot. The sub-arrays are then sorted recursively.
+
+Time Complexity: 
+𝑂
+(𝑛log𝑛)
+
+O(nlogn) on average, 
+𝑂
+(
+𝑛
+2
+)
+O(n 
+2
+ ) in the worst case (rare with good pivot selection)
+Space Complexity: 
+𝑂
+(
+log
+⁡
+𝑛
+)
+O(logn) for the recursion stack
+2. Merge Sort
+Mechanism: Merge Sort is a divide-and-conquer algorithm that splits the array into halves, recursively sorts them, and then merges the sorted halves.
+
+Time Complexity: 
+𝑂
+(
+𝑛
+log
+⁡
+𝑛
+)
+O(nlogn) in all cases
+Space Complexity: 
+𝑂
+(
+𝑛
+)
+O(n) due to the temporary arrays used for merging
+3. Heap Sort
+Mechanism: Heap Sort builds a max heap from the input data, then repeatedly extracts the maximum element from the heap and rebuilds the heap.
+
+Time Complexity: 
+𝑂
+(
+𝑛
+log
+⁡
+𝑛
+)
+O(nlogn) in all cases
+Space Complexity: 
+𝑂
+(
+1
+)
+O(1)
+4. Bucket Sort
+Mechanism: Bucket Sort distributes elements into several buckets, sorts each bucket individually, and then concatenates the sorted buckets.
+
+Time Complexity: 
+𝑂
+(
+𝑛
++
+𝑘
+)
+O(n+k) where 
+𝑘
+k is the number of buckets
+Space Complexity: 
+𝑂
+(
+𝑛
++
+𝑘
+)
+O(n+k)
+5. Radix Sort
+Mechanism: Radix Sort processes each digit of the numbers starting from the least significant digit to the most significant digit, using a stable sorting algorithm like Counting Sort.
+
+Time Complexity: 
+𝑂
+(
+𝑛
+𝑘
+)
+O(nk) where 
+𝑘
+k is the number of digits
+Space Complexity: 
+𝑂
+(
+𝑛
++
+𝑘
+)
+O(n+k)
+6. Counting Sort
+Mechanism: Counting Sort counts the number of occurrences of each unique element and uses this information to place elements in their correct position.
+
+Time Complexity: 
+𝑂
+(
+𝑛
++
+𝑘
+)
+O(n+k) where 
+𝑘
+k is the range of input
+Space Complexity: 
+𝑂
+(
+𝑛
++
+𝑘
+)
+O(n+k)
+7. Insertion Sort
+Mechanism: Insertion Sort builds the sorted array one element at a time by repeatedly picking the next element and inserting it into its correct position.
+
+Time Complexity: 
+𝑂
+(
+𝑛
+2
+)
+O(n 
+2
+ ) in the worst case, 
+𝑂
+(
+𝑛
+)
+O(n) in the best case (nearly sorted array)
+Space Complexity: 
+𝑂
+(
+1
+)
+O(1)
+8. Bubble Sort
+Mechanism: Bubble Sort repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order.
+
+Time Complexity: 
+𝑂
+(
+𝑛
+2
+)
+O(n 
+2
+ ) in the worst case
+Space Complexity: 
+𝑂
+(
+1
+)
+O(1)
+Explanation:
+Quick Sort: Often the fastest in practice due to good cache performance and average-case 
+𝑂
+(
+𝑛
+log
+⁡
+𝑛
+)
+O(nlogn) time complexity. However, its worst-case 
+𝑂
+(
+𝑛
+2
+)
+O(n 
+2
+ ) can be avoided with good pivot selection strategies like randomized pivoting.
+
+Merge Sort: Guarantees 
+𝑂
+(
+𝑛
+log
+⁡
+𝑛
+)
+O(nlogn) time complexity regardless of the input and is stable (preserves the order of equal elements), but it requires extra space for merging.
+
+Heap Sort: Consistently 
+𝑂
+(
+𝑛
+log
+⁡
+𝑛
+)
+O(nlogn) time complexity and 
+𝑂
+(
+1
+)
+O(1) space complexity make it reliable for in-place sorting, but it may have worse cache performance than Merge Sort and Quick Sort.
+
+Bucket Sort: Efficient for uniformly distributed data within a known range, offering linear time complexity. It requires additional space proportional to the number of buckets.
+
+Radix Sort: Effective for fixed-length integers or strings with a predictable length, achieving linear time complexity with respect to the number of digits.
+
+Counting Sort: Suitable for integers within a limited range, providing linear time complexity but can use a significant amount of memory if the range 
+𝑘
+k is large.
+
+Insertion Sort: Simple and efficient for small or nearly sorted arrays, with a best-case linear time complexity, but inefficient for large, randomly ordered data.
+
+Bubble Sort: Generally the least efficient, with 
+𝑂
+(
+𝑛
+2
+)
+O(n 
+2
+ ) time complexity, making it unsuitable for large datasets.
+
+Each algorithm has its own strengths and optimal use cases, and the choice depends on the specific requirements and constraints of the problem at hand.
+
+
+
+
+
+
+class Solution {
+public:
+    int minSwaps(vector<int>& nums) {
+        int n = nums.size();
+        int totalOnes = 0;
+        
+        // Count the total number of 1's in the array
+        for (int num : nums) {
+            if (num == 1) {
+                totalOnes++;
+            }
+        }
+        
+        // Special case: if there are no 1's or all elements are 1's
+        if (totalOnes == 0 || totalOnes == n) {
+            return 0;
+        }
+        
+        // Initialize the sliding window
+        int currentOnes = 0;
+        for (int i = 0; i < totalOnes; i++) {
+            if (nums[i] == 1) {
+                currentOnes++;
+            }
+        }
+        
+        // Maximize the number of 1's in any window of size totalOnes
+        int maxOnesInWindow = currentOnes;
+        for (int i = totalOnes; i < n + totalOnes; i++) {
+            if (nums[i % n] == 1) {
+                currentOnes++;
+            }
+            if (nums[(i - totalOnes) % n] == 1) {
+                currentOnes--;
+            }
+            maxOnesInWindow = max(maxOnesInWindow, currentOnes);
+        }
+        
+        // Minimum swaps needed
+        return totalOnes - maxOnesInWindow;
+    }
+};
+
+-------------------------------------------------------------------------------
+Insertion sort:
+
+//array
+#include <iostream>
+using namespace std;
+
+void insertionSort(int arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        int key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+int main() {
+    int arr[] = {10, 9, 7, 6, 2, 12, 18, 24, 29};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    insertionSort(arr, n);
+    for (int num : arr) {
+        cout << '|' << num << '|';
+    }
+    return 0;
+}
+
+
+
+
+//Linked list
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class SinglyLinkedList {
+private:
+    Node* head;
+    
+public:
+    SinglyLinkedList() {
+        this->head = nullptr;
+    }
+    
+    void insert(int data) {
+        Node* newNode = new Node(data);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    
+    void insertionSort() {
+        if (!head || !head->next) return;
+        Node* sorted = nullptr;
+        Node* current = head;
+        
+        while (current) {
+            Node* next = current->next;
+            if (!sorted || sorted->data >= current->data) {
+                current->next = sorted;
+                sorted = current;
+            } else {
+                Node* temp = sorted;
+                while (temp->next && temp->next->data < current->data) {
+                    temp = temp->next;
+                }
+                current->next = temp->next;
+                temp->next = current;
+            }
+            current = next;
+        }
+        head = sorted;
+    }
+    
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << '|' << temp->data << "|->";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
+    }
+};
+
+int main() {
+    SinglyLinkedList sll;
+    int data;
+    cout << "--Insertion--\n";
+    while (true) {
+        cin >> data;
+        if (data == 0) {
+            break;
+        }
+        sll.insert(data);
+    }
+    cout << "Before Sorting: ";
+    sll.display();
+    sll.insertionSort();
+    cout << "After Sorting: ";
+    sll.display();
+    
+    return 0;
+}
+
+
+
+
+-------------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Selection sort:
+
+//array
+#include <iostream>
+using namespace std;
+
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        int min_idx = i;
+        for (int j = i+1; j < n; j++) {
+            if (arr[j] < arr[min_idx])
+                min_idx = j;
+        }
+        swap(arr[min_idx], arr[i]);
+    }
+}
+
+int main() {
+    int arr[] = {10, 9, 7, 6, 2, 12, 18, 24, 29};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    selectionSort(arr, n);
+    for (int num : arr) {
+        cout << '|' << num << '|';
+    }
+    return 0;
+}
+
+
+
+
+//Linked list
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class SinglyLinkedList {
+private:
+    Node* head;
+    
+public:
+    SinglyLinkedList() {
+        this->head = nullptr;
+    }
+    
+    void insert(int data) {
+        Node* newNode = new Node(data);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    
+    void selectionSort() {
+        if (!head) return;
+        Node* start = head;
+        
+        while (start && start->next) {
+            Node* min = start;
+            Node* current = start->next;
+            
+            while (current) {
+                if (current->data < min->data) {
+                    min = current;
+                }
+                current = current->next;
+            }
+            
+            if (min != start) {
+                swap(min->data, start->data);
+            }
+            
+            start = start->next;
+        }
+    }
+    
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << '|' << temp->data << "|->";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
+    }
+};
+
+int main() {
+    SinglyLinkedList sll;
+    int data;
+    cout << "--Insertion--\n";
+    while (true) {
+        cin >> data;
+        if (data == 0) {
+            break;
+        }
+        sll.insert(data);
+    }
+    cout << "Before Sorting: ";
+    sll.display();
+    sll.selectionSort();
+    cout << "After Sorting: ";
+    sll.display();
+    
+    return 0;
+}
+
+
+
+-------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+Merge sort:
+
+//array
+#include <iostream>
+using namespace std;
+
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    int L[n1], R[n2];
+    
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int i = 0; i < n2; i++)
+        R[i] = arr[mid + 1 + i];
+    
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+    
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+int main() {
+    int arr[] = {10, 9, 7, 6, 2, 12, 18, 24, 29};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    mergeSort(arr, 0, n - 1);
+    for (int num : arr) {
+        cout << '|' << num << '|';
+    }
+    return 0;
+}
+
+
+
+
+
+//Linked list
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class SinglyLinkedList {
+private:
+    Node* head;
+    
+public:
+    SinglyLinkedList() {
+        this->head = nullptr;
+    }
+    
+    void insert(int data) {
+        Node* newNode = new Node(data);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    
+    Node* merge(Node* left, Node* right) {
+        if (!left) return right;
+        if (!right) return left;
+        
+        if (left->data <= right->data) {
+            left->next = merge(left->next, right);
+            return left;
+        } else {
+            right->next = merge(left, right->next);
+            return right;
+        }
+    }
+
+    Node* mergeSort(Node* node) {
+        if (!node || !node->next) return node;
+        
+        Node* mid = getMid(node);
+        Node* left = node;
+        Node* right = mid->next;
+        mid->next = nullptr;
+        
+        left = mergeSort(left);
+        right = mergeSort(right);
+        
+        return merge(left, right);
+    }
+
+    Node* getMid(Node* node) {
+        if (!node) return node;
+        Node* slow = node;
+        Node* fast = node->next;
+        
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+
+    void mergeSort() {
+        head = mergeSort(head);
+    }
+    
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << '|' << temp->data << "|->";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
+    }
+};
+
+int main() {
+    SinglyLinkedList sll;
+    int data;
+    cout << "--Insertion--\n";
+    while (true) {
+        cin >> data;
+        if (data == 0) {
+            break;
+        }
+        sll.insert(data);
+    }
+    cout << "Before Sorting: ";
+    sll.display();
+    sll.mergeSort();
+    cout << "After Sorting: ";
+    sll.display();
+    
+    return 0;
+}
+
+
+
+
+-------------------------------------------------------------------------------------
+
+
+-------------------------------------------------------------------------------
+Quick sort:
+
+//array
+#include <iostream>
+using namespace std;
+
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1);
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int main() {
+    int arr[] = {10, 9, 7, 6, 2, 12, 18, 24, 29};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    quickSort(arr, 0, n - 1);
+    for (int num : arr) {
+        cout << '|' << num << '|';
+    }
+    return 0;
+}
+
+
+
+
+
+//Linked list
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    
+    Node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class SinglyLinkedList {
+private:
+    Node* head;
+    
+public:
+    SinglyLinkedList() {
+        this->head = nullptr;
+    }
+    
+    void insert(int data) {
+        Node* newNode = new Node(data);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    Node* partition(Node* head, Node* end, Node** newHead, Node** newEnd) {
+        Node* pivot = end;
+        Node* prev = nullptr;
+        Node* curr = head;
+        Node* tail = pivot;
+
+        while (curr != pivot) {
+            if (curr->data < pivot->data) {
+                if (!*newHead) *newHead = curr;
+
+                prev = curr;
+                curr = curr->next;
+            } else {
+                if (prev) prev->next = curr->next;
+                Node* temp = curr->next;
+                curr->next = nullptr;
+                tail->next = curr;
+                tail = curr;
+                curr = temp;
+            }
+        }
+
+        if (!*newHead) *newHead = pivot;
+        *newEnd = tail;
+
+        return pivot;
+    }
+
+    Node* quickSortRecur(Node* head, Node* end) {
+        if (!head || head == end) return head;
+
+        Node* newHead = nullptr;
+        Node* newEnd = nullptr;
+
+        Node* pivot = partition(head, end, &newHead, &newEnd);
+
+        if (newHead != pivot) {
+            Node* temp = newHead;
+            while (temp->next != pivot) temp = temp->next;
+            temp->next = nullptr;
+
+            newHead = quickSortRecur(newHead, temp);
+
+            temp = getTail(newHead);
+            temp->next = pivot;
+        }
+
+        pivot->next = quickSortRecur(pivot->next, newEnd);
+
+        return newHead;
+    }
+
+    void quickSort() {
+        head = quickSortRecur(head, getTail(head));
+    }
+
+    Node* getTail(Node* node) {
+        while (node != nullptr && node->next != nullptr) {
+            node = node->next;
+        }
+        return node;
+    }
+    
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << '|' << temp->data << "|->";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
+    }
+};
+
+int main() {
+    SinglyLinkedList sll;
+    int data;
+    cout << "--Insertion--\n";
+    while (true) {
+        cin >> data;
+        if (data == 0) {
+            break;
+        }
+        sll.insert(data);
+    }
+    cout << "Before Sorting: ";
+    sll.display();
+    sll.quickSort();
+    cout << "After Sorting: ";
+    sll.display();
+    
+    return 0;
+}
+
+
+
+-------------------------------------------------------------------------------------
+
+
+
+
+
+
+import heapq
+
+def a_star_search(graph, start, goal, heuristic):
+    open_list = []
+    heapq.heappush(open_list, (0, start))
+    came_from = {start: None}
+    g_score = {start: 0}  # Cost from start to the current node
+    visited = set()
+
+    while open_list:
+        current = heapq.heappop(open_list)[1]
+
+        if current in visited:
+            continue
+        visited.add(current)
+
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = came_from[current]
+            return path[::-1]  # Return reversed path
+
+        for neighbor, cost in graph[current].items():
+            tentative_g_score = g_score[current] + cost
+
+            if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
+                g_score[neighbor] = tentative_g_score
+                f_score = tentative_g_score + heuristic(neighbor, goal)
+                heapq.heappush(open_list, (f_score, neighbor))
+                came_from[neighbor] = current
+
+    return None  # Return None if no path is found
+
+# Example heuristic function (simple straight-line distance in this case)
+def heuristic(node, goal):
+    return abs(ord(goal) - ord(node))  # Using ASCII values for simplicity
+
+# Example graph
+graph = {
+    'A': {'B': 1, 'C': 3},
+    'B': {'A': 1, 'D': 3, 'E': 1},
+    'C': {'A': 3, 'F': 5},
+    'D': {'B': 3},
+    'E': {'B': 1, 'G': 2},
+    'F': {'C': 5},
+    'G': {'E': 2, 'H': 1},
+    'H': {'G': 1}
+}
+
+# Running the algorithm
+start = 'A'
+goal = 'H'
+path_astar = a_star_search(graph, start, goal, heuristic)
+
+print("A* Search path:", path_astar)
+
+
+
+
+
+import heapq
+
+def greedy_best_first_search(graph, start, goal, heuristic):
+    open_list = []
+    heapq.heappush(open_list, (heuristic(start, goal), start))
+    came_from = {start: None}
+    visited = set()
+
+    while open_list:
+        current = heapq.heappop(open_list)[1]
+
+        if current in visited:
+            continue
+        visited.add(current)
+
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = came_from[current]
+            return path[::-1]  # Return reversed path
+
+        for neighbor in graph[current]:
+            if neighbor not in visited:
+                heapq.heappush(open_list, (heuristic(neighbor, goal), neighbor))
+                if neighbor not in came_from:
+                    came_from[neighbor] = current
+
+    return None  # Return None if no path is found
+
+# Example heuristic function (simple straight-line distance in this case)
+def heuristic(node, goal):
+    return abs(ord(goal) - ord(node))  # Using ASCII values for simplicity
+
+# Example graph
+graph = {
+    'A': {'B': 1, 'C': 3},
+    'B': {'A': 1, 'D': 3, 'E': 1},
+    'C': {'A': 3, 'F': 5},
+    'D': {'B': 3},
+    'E': {'B': 1, 'G': 2},
+    'F': {'C': 5},
+    'G': {'E': 2, 'H': 1},
+    'H': {'G': 1}
+}
+
+# Running the algorithm
+start = 'A'
+goal = 'H'
+path_gbfs = greedy_best_first_search(graph, start, goal, heuristic)
+
+print("Greedy Best-First Search path:", path_gbfs)

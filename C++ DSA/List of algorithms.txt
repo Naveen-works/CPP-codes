@@ -1,0 +1,124 @@
+Basic Algorithms:
+
+Binary Search: Efficiently find an element in a sorted array.
+Bubble Sort: A simple sorting algorithm.
+Insertion Sort: Builds the final sorted array one item at a time.
+Selection Sort: Selects the minimum element and places it at the beginning.
+Merge Sort: A divide and conquer sorting algorithm.
+Quick Sort: Another efficient sorting algorithm.
+Heap Sort: Utilizes a heap data structure to sort elements.
+Counting Sort: Non-comparison-based sorting algorithm.
+Radix Sort: Sorts integers by processing individual digits.
+Bucket Sort: Distributes elements into buckets, then sorts each bucket.
+
+
+Data Structures
+Linked List Operations: Insertion, deletion, and traversal.
+Stack Operations: Push, pop, peek, and implementation using arrays and linked lists.
+Queue Operations: Enqueue, dequeue, front, rear, and implementation using arrays and linked lists.
+Hash Table Operations: Insert, delete, search, and collision handling.
+Binary Search Tree (BST) Operations: Insert, delete, search, and traversal.
+AVL Tree: A self-balancing binary search tree.
+Red-Black Tree: Another self-balancing binary search tree.
+Segment Tree: For range queries and updates.
+Fenwick Tree (Binary Indexed Tree): Efficient updates and prefix queries.
+Trie: A tree-like data structure for storing strings.
+
+
+Dynamic Programming
+Knapsack Problem: Solving 0/1 and fractional knapsack problems.
+Longest Common Subsequence (LCS): Finding the longest subsequence present in two sequences.
+Longest Increasing Subsequence (LIS): Finding the longest increasing subsequence.
+Edit Distance: Calculating the minimum number of edits to transform one string into another.
+Matrix Chain Multiplication: Determining the optimal way to multiply a chain of matrices.
+Coin Change Problem: Finding the minimum number of coins to make a certain amount.
+Rod Cutting Problem: Determining the maximum profit by cutting a rod into pieces.
+Fibonacci Sequence: Generating Fibonacci numbers efficiently.
+Subset Sum Problem: Determining if there exists a subset with a given sum.
+Partition Problem: Dividing a set into two subsets with equal sum.
+
+
+Graph Algorithms
+Breadth-First Search (BFS): Traversing or searching tree or graph data structures.
+Depth-First Search (DFS): Another graph traversal algorithm.
+Dijkstra's Algorithm: Finding the shortest path in a weighted graph.
+Bellman-Ford Algorithm: Finding the shortest path in a weighted graph with negative weights.
+Floyd-Warshall Algorithm: Finding shortest paths between all pairs of vertices.
+Prim's Algorithm: Finding the minimum spanning tree.
+Kruskal's Algorithm: Another algorithm for finding the minimum spanning tree.
+Topological Sort: Ordering vertices of a directed graph.
+Tarjan's Algorithm: Finding strongly connected components.
+Union-Find (Disjoint Set): Handling dynamic connectivity queries.
+
+
+Advanced Algorithms
+KMP Algorithm: Pattern searching algorithm.
+Rabin-Karp Algorithm: Another pattern searching algorithm.
+Boyer-Moore Algorithm: Efficient pattern searching algorithm.
+Manacher's Algorithm: Finding the longest palindromic substring.
+Morris-Pratt Algorithm: Pattern matching algorithm.
+A Search Algorithm*: Finding the shortest path in a graph.
+Suffix Array: Array of suffixes of a string.
+Suffix Tree: A compressed trie of all suffixes of a given string.
+Z-Algorithm: Pattern searching algorithm.
+Convex Hull Algorithm: Finding the smallest polygon enclosing a set of points.
+
+
+
+Top Algorithms for Artificial Intelligence (AI)
+***********************************************
+A Search Algorithm*: Used in pathfinding and graph traversal.
+Minimax Algorithm: Decision rule used in game theory and AI.
+Alpha-Beta Pruning: Optimization technique for the minimax algorithm.
+Iterative Deepening Depth-First Search (IDDFS): Combines depth-first search's space-efficiency and breadth-first search's fast search.
+Genetic Algorithm: Optimization technique inspired by natural selection.
+Simulated Annealing: Probabilistic technique for approximating the global optimum.
+Monte Carlo Tree Search (MCTS): Used in decision processes in AI, notably in game playing.
+Breadth-First Search (BFS): Traversal algorithm for trees and graphs.
+Depth-First Search (DFS): Another traversal algorithm for trees and graphs.
+Hill Climbing Algorithm: Optimization algorithm used for mathematical problems.
+
+
+Top Algorithms for Machine Learning (ML)
+************************************
+Linear Regression: For predicting a continuous variable.
+Logistic Regression: For binary classification problems.
+Decision Trees: Non-parametric supervised learning method.
+Random Forest: Ensemble method using multiple decision trees.
+Support Vector Machine (SVM): For classification and regression analysis.
+K-Nearest Neighbors (KNN): Simple, instance-based learning algorithm.
+Naive Bayes: Based on applying Bayes' theorem.
+K-Means Clustering: Partitioning method for clustering.
+Principal Component Analysis (PCA): Dimensionality reduction technique.
+Gradient Boosting Machines (GBM): Ensemble technique for regression and classification.
+
+
+
+Top Algorithms for Deep Learning (DL)
+************************************
+Feedforward Neural Networks (FNN): Basic structure of neural networks.
+Convolutional Neural Networks (CNN): Primarily used for image processing tasks.
+Recurrent Neural Networks (RNN): For sequence data such as time series or natural language.
+Long Short-Term Memory Networks (LSTM): Type of RNN with better handling of long-term dependencies.
+Generative Adversarial Networks (GANs): For generating new data samples.
+Autoencoders: For unsupervised learning of efficient codings.
+Transformer Networks: Foundation for models like BERT and GPT for natural language processing.
+Restricted Boltzmann Machines (RBM): For collaborative filtering.
+Deep Q-Network (DQN): Used in reinforcement learning.
+Attention Mechanisms: Used to improve the performance of RNNs and CNNs.
+
+
+Top Algorithms for Game Theory
+******************************
+Nash Equilibrium: Solution concept where no player can benefit by changing their strategy unilaterally.
+Minimax Algorithm: Used in zero-sum games to minimize the possible loss.
+Backward Induction: Method used to solve finite extensive-form or sequential games.
+Cournot Competition: Describes an industry structure where firms compete on the amount of output they will produce.
+Stackelberg Competition: Game theory model of strategic interaction in oligopoly markets.
+Shapley Value: Solution concept in cooperative game theory.
+Bayesian Games: Games in which players have incomplete information.
+Evolutionary Game Theory: Application of game theory to evolving populations.
+Repeated Games: Situations where players encounter the same game repeatedly.
+Mechanism Design: Field related to game theory which attempts to design rules of a game to achieve a specific outcome.
+
+
